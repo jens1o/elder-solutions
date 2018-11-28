@@ -1,4 +1,5 @@
 [workspace]
 members = [
     "src/problem-one",
+    "src/problem-two"
 ]
