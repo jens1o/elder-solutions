@@ -78,6 +78,7 @@ pub fn get_products_smaller_max(
 /// ```rust
 /// assert_eq!(get_sum(&mut vec![3, 5, 6, 9].into_iter()), 23);
 /// ```
+#[inline(always)]
 pub fn get_sum(numbers: &mut Iterator<Item = i64>) -> i64 {
     numbers.sum()
 }
