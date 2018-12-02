@@ -2,11 +2,11 @@ use std::env;
 
 const FIBONACCI_LIMIT: usize = 4_000_000;
 
-fn fibonacci(number: &usize) -> usize {
+fn fibonacci(number: usize) -> usize {
     let mut current_number: usize = 0;
-    let mut fibonacci_numbers: Vec<usize> = Vec::with_capacity(*number);
+    let mut fibonacci_numbers: Vec<usize> = Vec::with_capacity(number);
 
-    while current_number != *number {
+    while current_number != number {
         if current_number < 2 {
             fibonacci_numbers.push(1);
         } else {
@@ -21,7 +21,7 @@ fn fibonacci(number: &usize) -> usize {
         current_number += 1;
     }
 
-    return fibonacci_numbers.into_iter().filter(|x| x % 2 == 0).sum();
+    fibonacci_numbers.into_iter().filter(|x| x % 2 == 0).sum()
 }
 
 fn main() {
@@ -33,7 +33,7 @@ fn main() {
     println!(
         "The sum of the even numbers in the term of finding the Fibonacci-Number for {} is: {}",
         number,
-        fibonacci(&number)
+        fibonacci(number)
     );
 }
 
@@ -43,11 +43,11 @@ mod tests {
 
     #[test]
     fn test_fibonacci() {
-        assert_eq!(fibonacci(&10), 44);
+        assert_eq!(fibonacci(10), 44);
     }
 
     #[test]
     fn test_sum_of_less_than_4_million() {
-        assert_eq!(fibonacci(&33), 4613732);
+        assert_eq!(fibonacci(33), 4613732);
     }
 }
