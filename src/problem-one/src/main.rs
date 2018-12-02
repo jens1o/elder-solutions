@@ -31,7 +31,9 @@ fn main() {
 
     let benchmark_start = SystemTime::now();
     let products = get_products_smaller_max(&mut multipliers, &max_number);
-    println!("Products < Max number: {:?}", products);
+
+    // leaving this - commented out - saves probably 50µs of benchmark time. :D
+    // println!("Products < Max number: {:?}", products);
 
     println!(
         "Sum: {} (took {:?})",
@@ -51,7 +53,10 @@ fn main() {
 /// ```
 /// # Note:
 /// They are not sorted by default. A number may appear multiple times.
-pub fn get_products_smaller_max(numbers: &mut Iterator<Item = i64>, max_number: &i64) -> HashSet<i64> {
+pub fn get_products_smaller_max(
+    numbers: &mut Iterator<Item = i64>,
+    max_number: &i64,
+) -> HashSet<i64> {
     let mut results: HashSet<i64> = HashSet::with_capacity(*max_number as usize);
 
     for number in numbers {
