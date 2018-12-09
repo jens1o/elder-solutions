@@ -43,6 +43,17 @@ fn find_smallest_divisable_number(max_number: u64) -> u64 {
 }
 
 fn is_divisable_by_anything_until_i(number: u64, max_number: u64) -> bool {
+    macro_rules! max_number_modulo_check {
+        ($number: expr) => {
+            if max_number >= $number && number % $number != 0 {
+                return false;
+            }
+        };
+    }
+
+    max_number_modulo_check!(5);
+    max_number_modulo_check!(2);
+
     for i in 1..=max_number {
         if number % i != 0 {
             return false;
