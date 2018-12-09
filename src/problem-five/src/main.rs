@@ -52,9 +52,11 @@ fn is_divisable_by_anything_until_i(number: u64, max_number: u64) -> bool {
     }
 
     max_number_modulo_check!(5);
+    max_number_modulo_check!(3);
     max_number_modulo_check!(2);
 
-    for i in 1..=max_number {
+    // checking for 1-4 is useless, because they are either checked before this block or wouldn't make sense(1)
+    for i in 4..=max_number {
         if number % i != 0 {
             return false;
         }
