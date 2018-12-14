@@ -5,5 +5,6 @@ members = [
     "src/problem-four",
     "src/problem-five",
     "src/problem-six",
-    "src/problem-sixteen"
+    "src/problem-sixteen",
+    "src/problem-twenty-two"
 ]
