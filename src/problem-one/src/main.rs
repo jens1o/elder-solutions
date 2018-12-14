@@ -30,7 +30,7 @@ fn main() {
     println!("Multipliers: {:?}", &multipliers);
 
     let benchmark_start = SystemTime::now();
-    let products = get_products_smaller_max(&mut multipliers, &max_number);
+    let products = get_products_smaller_max(&mut multipliers, max_number);
 
     // leaving this - commented out - saves probably 50µs of benchmark time. :D
     // println!("Products < Max number: {:?}", products);
@@ -55,16 +55,16 @@ fn main() {
 /// They are not sorted by default. A number may appear multiple times.
 pub fn get_products_smaller_max(
     numbers: &mut Iterator<Item = i64>,
-    max_number: &i64,
+    max_number: i64,
 ) -> HashSet<i64> {
-    let mut results: HashSet<i64> = HashSet::with_capacity(*max_number as usize);
+    let mut results: HashSet<i64> = HashSet::with_capacity(max_number as usize);
 
     for number in numbers {
         let mut i = 1;
 
         // go from bottom to top and check whether we are still less than
         // `max_number`.
-        while number * i < *max_number {
+        while number * i < max_number {
             results.insert(number * i);
             i += 1;
         }
@@ -89,7 +89,10 @@ mod tests {
 
     #[test]
     fn test_get_products() {
-        let mut products = get_products_smaller_max(&mut vec![3, 5].into_iter(), &10);
+        let mut products = get_products_smaller_max(&mut vec![3, 5].into_iter(), 10)
+            .iter()
+            .map(|x| *x)
+            .collect::<Vec<_>>();
 
         products.sort();
         assert_eq!(products, vec![3, 5, 6, 9]);
