@@ -17,12 +17,9 @@ fn main() {
     // sort them alphabetically
     names.sort();
 
-    let mut i = 0;
     let mut score_sum = 0;
 
-    for name in names.iter() {
-        i += 1;
-
+    for (i, name) in names.iter().enumerate() {
         let score = name
             .chars()
             .map(|x| x as usize)
