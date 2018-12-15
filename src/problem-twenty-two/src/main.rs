@@ -25,7 +25,7 @@ fn main() {
             .map(|x| x as usize)
             .map(|x| x - 64) // get numeric values (A = 1, code(A) = 65)
             .sum::<usize>()
-            * i;
+            * (i + 1);
 
         score_sum += score;
     }
