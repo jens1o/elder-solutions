@@ -4,9 +4,8 @@ use std::time::SystemTime;
 fn main() {
     let filename = "p022_names.txt";
 
-    let names = fs::read_to_string(filename).expect("Cannot read file.");
-
     let benchmark_start = SystemTime::now();
+    let names = fs::read_to_string(filename).expect("Cannot read file.");
 
     // remove first and last character because they are just quote-marks
     let (_, names) = names.split_at(1);
