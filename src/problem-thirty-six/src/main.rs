@@ -9,7 +9,7 @@ fn main() {
 
     let benchmark_start = SystemTime::now();
 
-    while number <= MAX_LIMIT {
+    while number != MAX_LIMIT {
         number += 1;
 
         if is_palindrome(&format!("{}", number)) {
