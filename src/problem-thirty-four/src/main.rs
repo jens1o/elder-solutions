@@ -18,13 +18,12 @@ fn main() {
     println!("Sum: {} (took {:?})", sum, benchmark_duration);
 }
 
+#[inline(always)]
 fn factorial(number: u32) -> u32 {
-    match number {
-        0 => 1,
-        n => n * factorial(n - 1),
-    }
+    (1..=number).product()
 }
 
+#[inline(always)]
 fn is_curious_number(number: u32) -> bool {
     let digits = format!("{}", number);
 
