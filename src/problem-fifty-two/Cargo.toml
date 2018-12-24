@@ -1,0 +1,10 @@
+[package]
+name = "problem-fifty-two"
+version = "0.1.0"
+authors = ["Jens Hausdorf <mail@jens-hausdorf.de>"]
+edition = "2018"
+
+[features]
+stats = []
+
+[dependencies]
