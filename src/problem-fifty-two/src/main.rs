@@ -18,7 +18,7 @@ fn main() {
         let mut digits: HashSet<char> = HashSet::new();
         let mut multiplier: u32 = 1;
 
-        'inner: while multiplier != MAX_MULTIPLIER {
+        while multiplier != MAX_MULTIPLIER {
             multiplier += 1;
 
             let result = n * multiplier;
