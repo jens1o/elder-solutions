@@ -11,5 +11,6 @@ members = [
     "src/problem-thirty-four",
     "src/problem-twenty-five",
     "src/problem-fifty-two",
-    "src/problem-one-hundred-and-two"
+    "src/problem-one-hundred-and-two",
+    "src/problem-one-hundred-and-forty-five"
 ]
