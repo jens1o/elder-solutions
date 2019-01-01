@@ -5,3 +5,4 @@ authors = ["Jens Hausdorf <mail@jens-hausdorf.de>"]
 edition = "2018"
 
 [dependencies]
+num_cpus = "1.9"
