@@ -1,5 +1,3 @@
-#![feature(integer_atomics)]
-
 extern crate num_cpus;
 
 use std::cmp;
