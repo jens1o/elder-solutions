@@ -42,9 +42,7 @@ fn greatest_palindrome_number(max_digits: u32) -> u64 {
             continue;
         }
 
-        if product_result_string.chars().collect::<String>()
-            == product_result_string.chars().rev().collect::<String>()
-        {
+        if product_result_string == product_result_string.chars().rev().collect::<String>() {
             println!("Found new greatest number: {}", product_result);
             greatest_number_found = product_result;
         }
