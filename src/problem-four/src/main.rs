@@ -30,6 +30,11 @@ fn greatest_palindrome_number(max_digits: u32) -> u64 {
 
         let product_result = i * j;
 
+        // save further calculations when this number is smaller or equal than the one we already found.
+        if product_result <= greatest_number_found {
+            continue;
+        }
+
         let product_result_string = format!("{}", product_result);
 
         // impossible case, as the numbers start with no leading zero(s).
@@ -37,9 +42,8 @@ fn greatest_palindrome_number(max_digits: u32) -> u64 {
             continue;
         }
 
-        if product_result_string.chars().collect::<Vec<_>>()
-            == product_result_string.chars().rev().collect::<Vec<_>>()
-            && product_result > greatest_number_found
+        if product_result_string.chars().collect::<String>()
+            == product_result_string.chars().rev().collect::<String>()
         {
             println!("Found new greatest number: {}", product_result);
             greatest_number_found = product_result;
