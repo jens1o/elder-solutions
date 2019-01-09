@@ -1,7 +1,19 @@
+#![feature(test)]
+
+#[cfg(test)]
+extern crate test;
+
+use std::time::SystemTime;
+
 fn main() {
+    let benchmark_start = SystemTime::now();
+    let result = greatest_palindrome_number(3);
+
+    let benchmark_duration = SystemTime::now().duration_since(benchmark_start).unwrap();
+
     println!(
-        "Largest palindrome number of three digit multiplicants: {}",
-        greatest_palindrome_number(3)
+        "Largest palindrome number of three digit multiplicants: {} (took {:?})",
+        result, benchmark_duration
     );
 }
 
@@ -13,20 +25,17 @@ fn greatest_palindrome_number(max_digits: u32) -> u64 {
 
     let mut greatest_number_found = 0;
 
-    loop {
-        if get_digits(i + 1) > max_digits {
-            println!("get_digits() abort");
-            break;
-        }
-
+    while get_digits(i) < max_digits {
         i += 1;
-
-        print!("i={}, j={}, ", i, j);
 
         let product_result = i * j;
 
-        println!("result={}", product_result);
         let product_result_string = format!("{}", product_result);
+
+        impossible case, as the numbers start with no leading zero(s).
+        if product_result_string.ends_with('0') {
+            continue;
+        }
 
         if product_result_string.chars().collect::<Vec<_>>()
             == product_result_string.chars().rev().collect::<Vec<_>>()
@@ -47,6 +56,7 @@ fn get_digits(number: u64) -> u32 {
 #[cfg(test)]
 mod tests {
     use super::{get_digits, greatest_palindrome_number};
+    use test::{black_box, Bencher};
 
     #[test]
     fn test_two_digit_palindrome() {
@@ -59,6 +69,13 @@ mod tests {
         assert_eq!(get_digits(300), 3);
         assert_eq!(get_digits(342), 3);
         assert_eq!(get_digits(100000), 6);
+    }
+
+    #[bench]
+    fn bench_greatest_palindrom_number(b: &mut Bencher) {
+        b.iter(|| {
+            black_box(greatest_palindrome_number(6));
+        });
     }
 
 }

@@ -1,4 +1,5 @@
 use std::env;
+use std::time::SystemTime;
 
 const FIBONACCI_LIMIT: usize = 4_000_000;
 
@@ -12,8 +13,12 @@ fn fibonacci(number: usize) -> usize {
         } else {
             let sum =
                 fibonacci_numbers[(current_number - 2)] + fibonacci_numbers[(current_number - 1)];
+
             if sum >= FIBONACCI_LIMIT {
-                break;
+                panic!(
+                    "Hit max-limit of {} while calculating fibonacci sum of even numbers.",
+                    FIBONACCI_LIMIT
+                );
             }
 
             fibonacci_numbers.push(sum);
@@ -30,10 +35,18 @@ fn main() {
         .and_then(|x| x.parse::<usize>().ok())
         .unwrap_or(33); // 33 is enough to not go beyond the fibonacci limit of 4,000,000.
 
+    let benchmark_start = SystemTime::now();
+
+    let result = fibonacci(number);
+
+    // unwrap is safe because code-wise benchmark start is earlier
+    let benchmark_duration = SystemTime::now().duration_since(benchmark_start).unwrap();
+
     println!(
-        "The sum of the even numbers in the term of finding the Fibonacci-Number for {} is: {}",
+        "The sum of the even numbers in the term of finding the Fibonacci-Number for {} is: {} (took {:?})",
         number,
-        fibonacci(number)
+        result,
+        benchmark_duration
     );
 }
 
