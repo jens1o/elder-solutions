@@ -32,7 +32,7 @@ fn greatest_palindrome_number(max_digits: u32) -> u64 {
 
         let product_result_string = format!("{}", product_result);
 
-        impossible case, as the numbers start with no leading zero(s).
+        // impossible case, as the numbers start with no leading zero(s).
         if product_result_string.ends_with('0') {
             continue;
         }
