@@ -86,7 +86,7 @@ mod tests {
     #[bench]
     fn bench_greatest_palindrom_number(b: &mut Bencher) {
         b.iter(|| {
-            black_box(greatest_palindrome_number(6));
+            black_box(greatest_palindrome_number(5));
         });
     }
 
