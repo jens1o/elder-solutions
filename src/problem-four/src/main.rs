@@ -3,17 +3,29 @@
 #[cfg(test)]
 extern crate test;
 
+use std::env;
 use std::time::SystemTime;
 
 fn main() {
+    let input: u32 = env::args()
+        .nth(1)
+        .and_then(|x| x.parse::<_>().ok())
+        .unwrap_or(3);
+
+    println!(
+        "Calculating the greatest palindrome number of {} digits.",
+        input
+    );
+
     let benchmark_start = SystemTime::now();
-    let result = greatest_palindrome_number(3);
+
+    let result = greatest_palindrome_number(input);
 
     let benchmark_duration = SystemTime::now().duration_since(benchmark_start).unwrap();
 
     println!(
-        "Largest palindrome number of three digit multiplicants: {} (took {:?})",
-        result, benchmark_duration
+        "Largest palindrome number of {} digit multiplicants: {} (took {:?})",
+        input, result, benchmark_duration
     );
 }
 
@@ -25,17 +37,16 @@ fn greatest_palindrome_number(max_digits: u32) -> u64 {
 
     let mut greatest_number_found = 0;
 
-    while get_digits(i) < max_digits {
+    while get_digits(i) <= max_digits {
         i += 1;
-
-        let product_result = i * j;
+        let product_result = i.checked_mul(j).expect("product result overflowed");
 
         // save further calculations when this number is smaller or equal than the one we already found.
         if product_result <= greatest_number_found {
             continue;
         }
 
-        let product_result_string = format!("{}", product_result);
+        let product_result_string = product_result.to_string();
 
         // impossible case, as the numbers start with no leading zero(s).
         if product_result_string.ends_with('0') {
@@ -43,7 +54,6 @@ fn greatest_palindrome_number(max_digits: u32) -> u64 {
         }
 
         if product_result_string == product_result_string.chars().rev().collect::<String>() {
-            println!("Found new greatest number: {}", product_result);
             greatest_number_found = product_result;
         }
     }
