@@ -52,13 +52,15 @@ fn get_lychrel_numbers(max: u128) -> HashSet<u128> {
         while current_iteration < 50 {
             current_iteration += 1;
 
-            let number_string = format!("{}", current_number);
+            let number_string = current_number.to_string();
 
             let reversed_current_number = reverse_number(number_string);
 
-            let current_sum = current_number + reversed_current_number;
+            let current_sum = current_number
+                .checked_add(reversed_current_number)
+                .expect("Current sum overflowed.");
 
-            let current_sum_string = format!("{}", current_sum);
+            let current_sum_string = current_sum.to_string();
 
             if is_palindromic(current_sum_string) {
                 results.insert(current_number);
