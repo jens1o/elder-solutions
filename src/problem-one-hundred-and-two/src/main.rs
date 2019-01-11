@@ -67,10 +67,11 @@ fn is_origin_in_triangle(triangle: Triangle) -> bool {
 
     let difference_x_p2_p1 = p2.x - p1.x;
     let difference_y_p1_p2 = p1.y - p2.y;
+    let difference_x_p0_p2 = p0.x - p2.x;
 
-    let delta = difference_y_p1_p2 * (p0.x - p2.x) + difference_x_p2_p1 * (p0.y - p2.y);
+    let delta = difference_y_p1_p2 * difference_x_p0_p2 + difference_x_p2_p1 * (p0.y - p2.y);
     let s = difference_y_p1_p2 * (-p2.x) + difference_x_p2_p1 * -p2.y;
-    let t = (p2.y - p0.y) * (-p2.x) + (p0.x - p2.x) * -p2.y;
+    let t = (p2.y - p0.y) * (-p2.x) + difference_x_p0_p2 * -p2.y;
 
     if delta < 0.0 {
         s <= 0.0 && t <= 0.0 && s + t >= delta
