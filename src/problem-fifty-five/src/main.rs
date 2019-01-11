@@ -7,7 +7,7 @@ fn main() {
         .nth(1)
         .and_then(|x| x.parse::<_>().ok())
         .and_then(|x| if x <= 10 { None } else { Some(x) })
-        .unwrap_or(10000);
+        .unwrap_or(10_000);
 
     println!("Generating lychrel numbers below {}.", max_number);
 
@@ -22,7 +22,7 @@ fn main() {
         lychrel_numbers.len(),
         max_number,
         benchmark_duration
-    )
+    )y
 }
 
 #[inline(always)]
