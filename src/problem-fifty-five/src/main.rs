@@ -22,7 +22,7 @@ fn main() {
         lychrel_numbers.len(),
         max_number,
         benchmark_duration
-    )y
+    );
 }
 
 #[inline(always)]
