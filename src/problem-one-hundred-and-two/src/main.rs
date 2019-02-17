@@ -24,7 +24,7 @@ fn main() -> Result<(), io::Error> {
     for triangle_line in triangles.lines() {
         let lines: Vec<f32> = triangle_line
             .split(',')
-            .map(|x| x.parse::<f32>().unwrap())
+            .map(|x| x.parse::<_>().unwrap())
             .collect();
         debug_assert!(lines.len() == 6);
 

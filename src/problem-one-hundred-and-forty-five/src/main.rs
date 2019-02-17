@@ -1,13 +1,11 @@
 extern crate num_cpus;
 
 use std::cmp;
-use std::collections::HashSet;
 use std::env;
 use std::io;
-use std::sync::atomic::{AtomicUsize, Ordering};
-use std::sync::{Arc, Mutex};
-use std::thread::{self, JoinHandle};
-use std::time::{Duration, SystemTime};
+use std::sync::mpsc::channel;
+use std::thread;
+use std::time::SystemTime;
 
 /// calculating below this number is considered useless
 const START_NUMBER: u32 = 10;
@@ -25,12 +23,10 @@ fn main() -> Result<(), io::Error> {
 
     println!("Launching {} threads.", number_of_threads);
 
+    let mut reversible_numbers: u32 = 0;
     let benchmark_start = SystemTime::now();
-    let mut thread_handles: Vec<JoinHandle<_>> = Vec::with_capacity(number_of_threads);
-    let reversible_numbers: Arc<Mutex<Vec<u32>>> =
-        Arc::new(Mutex::new(Vec::with_capacity(200 * number_of_threads)));
 
-    let finished_threads = Arc::new(Mutex::new(AtomicUsize::new(0)));
+    let (tx, rx) = channel();
 
     let reversible_numbers_to_calculate_per_thread: usize =
         ((max_number - START_NUMBER) / (number_of_threads as u32)) as usize;
@@ -46,12 +42,9 @@ fn main() -> Result<(), io::Error> {
             START_NUMBER as usize,
         );
 
-        let current_end = start_position + reversible_numbers_to_calculate_per_thread;
+        let sender = tx.clone();
 
-        let reversible_numbers = reversible_numbers.clone();
-        let finished_threads = finished_threads.clone();
-
-        thread_handles.push(thread::spawn(move || {
+        thread::spawn(move || {
             println!("Thread {} started.", thread_number);
 
             let sub_results = find_reversible_number_below(
@@ -60,24 +53,22 @@ fn main() -> Result<(), io::Error> {
                 if thread_number == number_of_threads {
                     max_number
                 } else {
-                    current_end as u32
+                    (start_position + reversible_numbers_to_calculate_per_thread) as u32
                 },
             );
 
-            reversible_numbers.lock().unwrap().extend(sub_results);
+            sender
+                .send(sub_results)
+                .expect("Cannot send sub-results to main thread!");
 
-            finished_threads
-                .lock()
-                .unwrap()
-                .fetch_add(1, Ordering::SeqCst);
-        }));
+            println!("Thread {} done!", thread_number);
+        });
     }
 
-    loop {
-        thread::sleep(Duration::from_nanos(250));
-        let finished_threads = finished_threads.lock().unwrap().load(Ordering::SeqCst);
-        if finished_threads == number_of_threads {
-            break;
+    // gather result from threads
+    for _ in 1..=number_of_threads {
+        for sub_result in rx.recv() {
+            reversible_numbers += sub_result;
         }
     }
 
@@ -85,24 +76,18 @@ fn main() -> Result<(), io::Error> {
     println!();
     println!("Calculation took {:?}.", benchmark_duration);
 
-    let reversible_numbers = reversible_numbers.lock().unwrap();
-
-    let mut reversible_numbers = reversible_numbers.iter().collect::<Vec<_>>();
-    reversible_numbers.sort();
-
     println!(
         "There are {} reversible numbers below {}.",
-        reversible_numbers.len(),
-        max_number,
+        reversible_numbers, max_number,
     );
 
     Ok(())
 }
 
-fn find_reversible_number_below(start_number: u32, max_number: u32) -> HashSet<u32> {
-    let mut reversible_numbers: HashSet<u32> = HashSet::with_capacity(200);
+fn find_reversible_number_below(start_number: u32, max_number: u32) -> u32 {
+    let mut reversible_numbers_found: u32 = 0;
 
-    assert!(start_number < max_number);
+    debug_assert!(start_number < max_number);
 
     for number in start_number..=max_number {
         let number_string = format!("{}", number);
@@ -123,14 +108,13 @@ fn find_reversible_number_below(start_number: u32, max_number: u32) -> HashSet<u
 
         let sum = number + reversed_number;
 
-        let result = format!("{}", sum)
+        if format!("{}", sum)
             .chars()
-            .all(|x| x.to_string().parse::<u32>().unwrap() % 2 != 0);
-
-        if result {
-            reversible_numbers.insert(number);
+            .all(|x| x.to_string().parse::<u8>().unwrap() % 2 != 0)
+        {
+            reversible_numbers_found += 1
         }
     }
 
-    reversible_numbers
+    reversible_numbers_found
 }
