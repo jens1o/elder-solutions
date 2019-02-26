@@ -21,7 +21,7 @@ fn main() {
 }
 
 fn sum_of_square_numbers_of_numbers_less_than_i(i: u64) -> u64 {
-    assert!(i > 0);
+    assert!(i != 0);
     let mut result: u64 = 0;
 
     for number in 0..=i {
@@ -32,7 +32,7 @@ fn sum_of_square_numbers_of_numbers_less_than_i(i: u64) -> u64 {
 }
 
 fn square_sum_of_numbers_less_than_i(i: u64) -> u64 {
-    assert!(i > 0);
+    assert!(i != 0);
     let mut result: u64 = 0;
 
     for number in 0..=i {

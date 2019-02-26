@@ -8,9 +8,9 @@ use std::env;
 use std::time::SystemTime;
 
 fn main() {
-    let max_number = env::args()
+    let max_number: i64 = env::args()
         .nth(1)
-        .and_then(|x| x.parse::<i64>().ok())
+        .and_then(|x| x.parse::<_>().ok())
         .unwrap_or(1000); // fallback to default value of exercise if no/malformed input provided
 
     let mut multipliers = env::args()
@@ -52,7 +52,7 @@ fn main() {
 /// assert_eq!(products, vec![3, 5, 6, 9]);
 /// ```
 /// # Note:
-/// They are not sorted by default. A number may appear multiple times.
+/// They are not sorted by default.
 pub fn get_products_smaller_max(
     numbers: &mut Iterator<Item = i64>,
     max_number: i64,
