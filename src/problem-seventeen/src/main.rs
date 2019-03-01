@@ -49,9 +49,13 @@ lazy_static! {
 }
 
 fn main() {
-    for i in 1..=1000 {
-        println!("{:4}: {}", i, get_name_for_number(i));
-    }
+    let result = (1..=1000).map(get_name_for_number).map(get_worthy_string_letters).sum::<usize>();
+
+    println!("Letter used by the numbers 1 <= x <= 1000: {}", result);
+}
+
+fn get_worthy_string_letters(number_name: String) -> usize {
+    number_name.replace(" ", "").replace("-", "").chars().count()
 }
 
 fn get_name_for_number(number: u16) -> String {
@@ -110,4 +114,14 @@ fn get_name_for_number(number: u16) -> String {
     }
 
     result_string
+}
+#[cfg(test)]
+mod tests {
+    use super::get_name_for_number;
+
+    #[test]
+    fn test_basic_naming() {
+        assert_eq!("three hundred and forty-two", get_name_for_number(342));
+        assert_eq!("one hundred and fifteen", get_name_for_number(115));
+    }
 }
