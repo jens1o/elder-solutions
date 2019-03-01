@@ -106,7 +106,7 @@ fn get_name_for_number(number: u16) -> String {
         }
 
         // call what is left
-        result_string.push_str(&get_name_for_number(number - (ratio * closest_number)));
+        result_string.push_str(&get_name_for_number(number_left));
     }
 
     result_string
