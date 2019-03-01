@@ -5,7 +5,7 @@ use std::collections::HashMap;
 
 lazy_static! {
     static ref NUMBER_TO_STRING: HashMap<u16, String> = {
-        let mut m = HashMap::with_capacity(25);
+        let mut m = HashMap::with_capacity(29);
 
         macro_rules! add_entry {
             ($number:expr, $string:expr) => {
