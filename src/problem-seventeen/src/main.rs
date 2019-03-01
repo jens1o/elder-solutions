@@ -49,13 +49,20 @@ lazy_static! {
 }
 
 fn main() {
-    let result = (1..=1000).map(get_name_for_number).map(get_worthy_string_letters).sum::<usize>();
+    let result = (1..=1000)
+        .map(get_name_for_number)
+        .map(get_worthy_string_letters)
+        .sum::<usize>();
 
     println!("Letter used by the numbers 1 <= x <= 1000: {}", result);
 }
 
 fn get_worthy_string_letters(number_name: String) -> usize {
-    number_name.replace(" ", "").replace("-", "").chars().count()
+    number_name
+        .replace(" ", "")
+        .replace("-", "")
+        .chars()
+        .count()
 }
 
 fn get_name_for_number(number: u16) -> String {
@@ -65,7 +72,11 @@ fn get_name_for_number(number: u16) -> String {
 
     // direct hit!
     if NUMBER_TO_STRING.contains_key(&number) {
-        return format!("{}{}", if number >= 100 { "one " } else { "" }, NUMBER_TO_STRING.get(&number).unwrap());
+        return format!(
+            "{}{}",
+            if number >= 100 { "one " } else { "" },
+            NUMBER_TO_STRING.get(&number).unwrap()
+        );
     }
 
     let mut result_string = String::new();
