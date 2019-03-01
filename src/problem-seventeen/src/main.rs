@@ -50,7 +50,7 @@ lazy_static! {
 
 fn main() {
     for i in 1..=1000 {
-        println!("{}: {}", i, get_name_for_number(i));
+        println!("{:4}: {}", i, get_name_for_number(i));
     }
 }
 
@@ -70,7 +70,7 @@ fn get_name_for_number(number: u16) -> String {
     let mut closest_number = 0;
 
     // look for the number we know is the closest number to the we were given
-    for (key, _) in NUMBER_TO_STRING.iter().filter(|(key, _)| key < &&number) {
+    for key in NUMBER_TO_STRING.keys().filter(|key| key < &&number) {
         // calculate difference to value
         let difference = number - key;
 
