@@ -2,6 +2,7 @@
 extern crate lazy_static;
 
 use std::collections::HashMap;
+use std::time::Instant;
 
 lazy_static! {
     static ref NUMBER_TO_STRING: HashMap<u16, String> = {
@@ -49,10 +50,17 @@ lazy_static! {
 }
 
 fn main() {
+    let time_start = Instant::now();
     let result = (1..=1000)
         .map(get_name_for_number)
+        // .inspect(|x| println!("{}", x))
         .map(get_worthy_string_letters)
         .sum::<usize>();
+
+    println!(
+        "Generation took {:?}",
+        Instant::now().duration_since(time_start)
+    );
 
     println!("Letter used by the numbers 1 <= x <= 1000: {}", result);
 }
@@ -75,7 +83,7 @@ fn get_name_for_number(number: u16) -> String {
         return format!(
             "{}{}",
             if number >= 100 { "one " } else { "" },
-            NUMBER_TO_STRING.get(&number).unwrap()
+            NUMBER_TO_STRING[&number]
         );
     }
 
@@ -103,13 +111,11 @@ fn get_name_for_number(number: u16) -> String {
 
     // put ratio in front of number
     if number >= 100 {
-        assert!(NUMBER_TO_STRING.get(&ratio).is_some());
-
-        result_string.push_str(NUMBER_TO_STRING.get(&ratio).unwrap());
+        result_string.push_str(&NUMBER_TO_STRING[&ratio]);
         result_string.push_str(&" ".to_owned());
     }
 
-    result_string.push_str(NUMBER_TO_STRING.get(&closest_number).unwrap());
+    result_string.push_str(&NUMBER_TO_STRING[&closest_number]);
 
     if number_left > 0 {
         if number > 100 {
