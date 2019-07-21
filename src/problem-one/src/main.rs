@@ -53,11 +53,8 @@ fn main() {
 /// ```
 /// # Note:
 /// They are not sorted by default.
-pub fn get_products_smaller_max(
-    numbers: &mut Iterator<Item = i64>,
-    max_number: i64,
-) -> HashSet<i64> {
-    let mut results: HashSet<i64> = HashSet::with_capacity(max_number as usize);
+pub fn get_products_smaller_max(numbers: &mut Iterator<Item = i64>, max_number: i64) -> Vec<i64> {
+    let mut results: Vec<i64> = Vec::with_capacity(max_number as usize);
 
     for number in numbers {
         let mut i = 1;
@@ -65,7 +62,7 @@ pub fn get_products_smaller_max(
         // go from bottom to top and check whether we are still less than
         // `max_number`.
         while number * i < max_number {
-            results.insert(number * i);
+            results.push(number * i);
             i += 1;
         }
     }

@@ -1,8 +1,3 @@
-#![feature(test)]
-
-#[cfg(test)]
-extern crate test;
-
 use std::env;
 use std::time::SystemTime;
 
@@ -68,7 +63,6 @@ fn get_digits(number: u64) -> u32 {
 #[cfg(test)]
 mod tests {
     use super::{get_digits, greatest_palindrome_number};
-    use test::{black_box, Bencher};
 
     #[test]
     fn test_two_digit_palindrome() {
@@ -82,12 +76,4 @@ mod tests {
         assert_eq!(get_digits(342), 3);
         assert_eq!(get_digits(100000), 6);
     }
-
-    #[bench]
-    fn bench_greatest_palindrom_number(b: &mut Bencher) {
-        b.iter(|| {
-            black_box(greatest_palindrome_number(5));
-        });
-    }
-
 }

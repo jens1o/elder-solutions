@@ -1,5 +1,5 @@
 use std::env;
-use std::time::SystemTime;
+use std::time::Instant;
 
 fn main() {
     let i: u64 = env::args()
@@ -7,10 +7,10 @@ fn main() {
         .and_then(|x| x.parse::<_>().ok())
         .unwrap_or(100);
 
-    let benchmark_start = SystemTime::now();
+    let benchmark_start = Instant::now();
     let difference =
         square_sum_of_numbers_less_than_i(i) - sum_of_square_numbers_of_numbers_less_than_i(i);
-    let benchmark_end = SystemTime::now().duration_since(benchmark_start).unwrap();
+    let benchmark_end = Instant::now().duration_since(benchmark_start);
 
     println!(
         "Difference between square-sum-of-numbers and sum-of-square-numbers is: {}",

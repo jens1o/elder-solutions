@@ -1,4 +1,4 @@
-use std::time::SystemTime;
+use std::time::Instant;
 
 const MAX_LIMIT: i32 = 1_000_000;
 
@@ -7,7 +7,7 @@ fn main() {
     let mut number: i32 = -1;
     let mut sum = 0;
 
-    let benchmark_start = SystemTime::now();
+    let benchmark_start = Instant::now();
 
     while number <= MAX_LIMIT {
         // they always must be odd, otherwise it is not possible
@@ -24,7 +24,7 @@ fn main() {
         }
     }
 
-    let benchmark_duration = SystemTime::now().duration_since(benchmark_start).unwrap();
+    let benchmark_duration = Instant::now().duration_since(benchmark_start);
 
     println!("Sum: {}", sum);
     println!("Took: {:?}", benchmark_duration);
@@ -32,5 +32,5 @@ fn main() {
 
 #[inline(always)]
 fn is_palindrome(number: &str) -> bool {
-    number.chars().rev().collect::<Vec<_>>() == number.chars().collect::<Vec<_>>()
+    number.chars().rev().collect::<String>() == number.chars().collect::<String>()
 }
